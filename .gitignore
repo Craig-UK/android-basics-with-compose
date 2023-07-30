@@ -1,0 +1,12 @@
+*/gradle/
+*/.idea/
+*.gradle
+*.properties
+*.bat
+*/gradlew
+*/build
+/.idea/
+*.pro
+*/app/libs/
+*/app/build/
+*/app/src/main/res/
