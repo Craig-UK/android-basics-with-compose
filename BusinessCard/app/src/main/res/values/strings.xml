@@ -4,4 +4,8 @@
     <string name="title">Aspiring Software Engineer</string>
     <string name="email_icon_description">Envelope icon</string>
     <string name="email_text">contact@justcraigdev.com</string>
+    <string name="social_media_icon_description">Home icon</string>
+    <string name="social_media_text">\@craigdevuk</string>
+    <string name="github_icon_description">Circular icon with a shadow of a person inside</string>
+    <string name="github_text">Craig-UK</string>
 </resources>

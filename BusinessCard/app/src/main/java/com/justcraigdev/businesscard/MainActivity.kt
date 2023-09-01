@@ -76,15 +76,15 @@ fun DisplayApp(modifier: Modifier = Modifier) {
             Row {
                 Contact(
                     icon = AppIcons.Home,
-                    iconDescription = "Home icon",
-                    text = "@craigdevuk"
+                    iconDescription = stringResource(R.string.social_media_icon_description),
+                    text = stringResource(R.string.social_media_text)
                 )
             }
             Row {
                 Contact(
                     icon = AppIcons.AccountCircle,
-                    iconDescription = "Circular icon with a shadow of a person inside",
-                    text = "Craig-UK"
+                    iconDescription = stringResource(R.string.github_icon_description),
+                    text = stringResource(R.string.github_text)
                 )
             }
         }
