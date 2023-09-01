@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BusinessCard</string>
+    <string name="name">Craig Climie</string>
+    <string name="title">Aspiring Software Engineer</string>
+    <string name="email_icon_description">Envelope icon</string>
+    <string name="email_text">contact@justcraigdev.com</string>
+</resources>
