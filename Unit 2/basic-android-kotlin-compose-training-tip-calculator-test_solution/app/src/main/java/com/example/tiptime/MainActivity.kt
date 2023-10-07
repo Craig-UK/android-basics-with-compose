@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.justcraigdev.tiptime
+package com.example.tiptime
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.VisibleForTesting
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,27 +34,27 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.Icon
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.justcraigdev.tiptime.ui.theme.TipTimeTheme
+import com.example.tiptime.ui.theme.TipTimeTheme
 import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
@@ -79,10 +79,12 @@ fun TipTimeLayout() {
     var amountInput by remember { mutableStateOf("") }
     var tipInput by remember { mutableStateOf("") }
     var roundUp by remember { mutableStateOf(false) }
+
     val amount = amountInput.toDoubleOrNull() ?: 0.0
     val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
-
     val tip = calculateTip(amount, tipPercent, roundUp)
+
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -105,10 +107,8 @@ fun TipTimeLayout() {
                 imeAction = ImeAction.Next
             ),
             value = amountInput,
-            onValueChange = { amountInput = it },
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth()
+            onValueChanged = { amountInput = it },
+            modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth(),
         )
         EditNumberField(
             label = R.string.how_was_the_service,
@@ -118,10 +118,8 @@ fun TipTimeLayout() {
                 imeAction = ImeAction.Done
             ),
             value = tipInput,
-            onValueChange = { tipInput = it },
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth()
+            onValueChanged = { tipInput = it },
+            modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth(),
         )
         RoundTheTipRow(
             roundUp = roundUp,
@@ -142,17 +140,17 @@ fun EditNumberField(
     @DrawableRes leadingIcon: Int,
     keyboardOptions: KeyboardOptions,
     value: String,
-    onValueChange: (String) -> Unit,
+    onValueChanged: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
-        leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
-        onValueChange = onValueChange,
-        label = { Text(stringResource(label)) },
         singleLine = true,
-        keyboardOptions = keyboardOptions,
-        modifier = modifier
+        leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
+        modifier = modifier,
+        onValueChange = onValueChanged,
+        label = { Text(stringResource(label)) },
+        keyboardOptions = keyboardOptions
     )
 }
 
@@ -163,10 +161,9 @@ fun RoundTheTipRow(
     modifier: Modifier = Modifier
 ) {
     Row(
-       modifier = modifier
-           .fillMaxWidth()
-           .size(48.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier
+            .fillMaxWidth()
+            .size(48.dp),
     ) {
         Text(text = stringResource(R.string.round_up_tip))
         Switch(
